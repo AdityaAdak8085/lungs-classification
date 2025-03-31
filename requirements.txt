@@ -1,0 +1,25 @@
+tensorflow
+keras
+numpy
+pandas
+opencv-python
+pillow
+flask
+flask-cors
+gunicorn
+dvc
+notebook
+matplotlib
+seaborn
+pyYAML
+python-box==6.0.2
+joblib
+types-PyYAML
+tqdm
+ensure==1.0.2
+scipy
+box
+-e .
+
+
+
