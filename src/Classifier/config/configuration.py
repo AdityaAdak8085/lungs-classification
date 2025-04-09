@@ -1,7 +1,7 @@
 
 from src.Classifier.constants import *
 from src.Classifier.utils.common import read_yaml, create_directories
-from src.Classifier.entity.config_entity import (DataIngestionConfig,PrepareBaseModelConfig,PrepareCallbacksConfig,TrainingConfig)
+from src.Classifier.entity.config_entity import (DataIngestionConfig,PrepareBaseModelConfig,PrepareCallbacksConfig,TrainingConfig, EvaluationConfig)
 import os
 
 class ConfigurationManager:
@@ -85,6 +85,16 @@ class ConfigurationManager:
             params_image_size=params.IMAGE_SIZE,
             params_classes=params.CLASSES
         )
+    
+    def get_validation_config(self) -> EvaluationConfig:
+        eval_config = EvaluationConfig(
+            path_of_model="artifacts/training/model.h5",
+            training_data="artifacts/data_ingestion/split_dataset/train",
+            all_params=self.params,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE
+        )
+        return eval_config
     
 
 

@@ -1,0 +1,117 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Classifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 7b60d03023e83583de848b7382035b8c
+      size: 817
+    - path: src/Classifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 89ca6b1118433c09eb46b81d51eb2af1
+      size: 921
+    outs:
+    - path: artifacts/data_ingestion/split_dataset
+      hash: md5
+      md5: fcdeaea72293a39fa74d10c98288a4aa.dir
+      size: 157634514
+      nfiles: 1097
+  prepare_base_model:
+    cmd: python src/Classifier/pipeline/stage_02_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 7b60d03023e83583de848b7382035b8c
+      size: 817
+    - path: src/Classifier/pipeline/stage_02_base_model.py
+      hash: md5
+      md5: 58db8961b6b6970b33b4c4738e0202bc
+      size: 1006
+    params:
+      params.yaml:
+        CLASSES: 3
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.001
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: a2f24edf48fdfe83af19a08b011865b3.dir
+      size: 34506864
+      nfiles: 2
+  training:
+    cmd: python src/Classifier/pipeline/stage_03_training.py
+    deps:
+    - path: artifacts/data_ingestion/split_dataset
+      hash: md5
+      md5: fcdeaea72293a39fa74d10c98288a4aa.dir
+      size: 157634514
+      nfiles: 1097
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: a2f24edf48fdfe83af19a08b011865b3.dir
+      size: 34506864
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 7b60d03023e83583de848b7382035b8c
+      size: 817
+    - path: src/Classifier/components/prepare_callbacks.py
+      hash: md5
+      md5: fca1be1119af5b738cec052ef0f66a6c
+      size: 1007
+    - path: src/Classifier/pipeline/stage_03_training.py
+      hash: md5
+      md5: b18fcedd5082c539d0ba2ae8c5505953
+      size: 1205
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 32
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 1f4196e16be85bd83aa39d35f1429b5f
+      size: 18905616
+  evaluation:
+    cmd: python src/Classifier/pipeline/stage_04_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/split_dataset
+      hash: md5
+      md5: fcdeaea72293a39fa74d10c98288a4aa.dir
+      size: 157634514
+      nfiles: 1097
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 1f4196e16be85bd83aa39d35f1429b5f
+      size: 18905616
+    - path: config/config.yaml
+      hash: md5
+      md5: 7b60d03023e83583de848b7382035b8c
+      size: 817
+    - path: src/Classifier/pipeline/stage_04_evaluation.py
+      hash: md5
+      md5: a38fc2e8dd06fb1ebe069c248cada7df
+      size: 886
+    params:
+      params.yaml:
+        BATCH_SIZE: 32
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 2a7949f482ee524579ba41b78e8df64d
+      size: 73
