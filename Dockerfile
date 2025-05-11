@@ -1,10 +1,15 @@
-
 FROM python:3.8-slim-buster
 
-RUN apt update -y && apt install awscli -y
+# Update and install awscli
+RUN apt-get update -y && apt-get install -y awscli
+
 WORKDIR /app
 
+# Copy the application code
 COPY . /app
-RUN pip install -r requirements.txt
 
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Command to run the application
 CMD ["python3", "app.py"]
