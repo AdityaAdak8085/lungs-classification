@@ -14,8 +14,9 @@ class DataIngestion:
 
     def download_file(self):
         """Downloads a large file from Google Drive using gdown."""
-        file_id = "1zoQUChTPfc-2EMBfk0X813bwt0837tQs"
+        file_id = "1zc7CRI7KEEZrKPU83c7vXbTZNZFZq-oB"
         url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        
         local_file = self.config.local_data_file
 
         os.makedirs(os.path.dirname(local_file), exist_ok=True)

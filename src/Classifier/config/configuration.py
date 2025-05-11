@@ -69,7 +69,7 @@ class ConfigurationManager:
         training = self.config.training
         prepare_base_model = self.config.prepare_base_model
         params = self.params
-        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "split_dataset", "Train")
+        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "The IQ-OTHNCCD lung cancer dataset", "Train")
 
 
         create_directories([Path(training.root_dir)])
@@ -89,7 +89,7 @@ class ConfigurationManager:
     def get_validation_config(self) -> EvaluationConfig:
         eval_config = EvaluationConfig(
             path_of_model="artifacts/training/model.h5",
-            training_data="artifacts/data_ingestion/split_dataset/train",
+            training_data="artifacts/data_ingestion/The IQ-OTHNCCD lung cancer dataset/train",
             all_params=self.params,
             params_image_size=self.params.IMAGE_SIZE,
             params_batch_size=self.params.BATCH_SIZE

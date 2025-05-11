@@ -58,13 +58,14 @@ class Training:
 
         if self.config.params_is_augmentation:
             train_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(
-                rotation_range=40,
+                rotation_range=20,
                 horizontal_flip=True,
                 width_shift_range=0.2,
                 height_shift_range=0.2,
                 shear_range=0.2,
                 zoom_range=0.2,
                 **datagenerator_kwargs
+                
             )
         else:
             train_datagenerator = valid_datagenerator
@@ -96,4 +97,28 @@ class Training:
 
     @staticmethod
     def save_model(path: Path, model: tf.keras.Model):
+        # Save Keras .h5 model
         model.save(path)
+        print(f"Keras model saved at {path}")
+
+        # Convert and save TFLite model
+        converter = tf.lite.TFLiteConverter.from_keras_model(model)
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]  # Optional quantization
+        tflite_model = converter.convert()
+
+        # Set the TFLite path (same name but .tflite)
+        tflite_path = path.with_suffix('.tflite')
+        with open(tflite_path, "wb") as f:
+            f.write(tflite_model)
+        print(f"TFLite model saved at {tflite_path}")
+
+
+
+
+
+        
+
+
+
+
+    
