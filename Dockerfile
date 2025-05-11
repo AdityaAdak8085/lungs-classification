@@ -1,7 +1,7 @@
 FROM python:3.8-slim-buster
 
 
-RUN apt update -y && apt install -y awscli
+RUN apt-get update && apt-get install -y awscli
 
 WORKDIR /app
 
