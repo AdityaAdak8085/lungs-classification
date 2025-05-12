@@ -1,7 +1,10 @@
 FROM python:3.8-slim-buster
 
-# Update and install awscli
-RUN apt-get update -y && apt-get install -y awscli
+# Install required system dependencies
+RUN apt-get update -y && apt-get install -y \
+    awscli \
+    libgl1 \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

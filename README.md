@@ -13,3 +13,8 @@
 8. Update the main.py
 9. Update the dvc.yaml
 
+create ecr repo
+URL:668567157840.dkr.ecr.eu-north-1.amazonaws.com/lungs
+
+
+
