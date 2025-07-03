@@ -1,4 +1,4 @@
-# Chicken-Disease-Classification--Project
+# Lungs-Disease-Classification--Project
 
 
 ## Workflows
